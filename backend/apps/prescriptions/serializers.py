@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Prescription, PrescriptionItem
 from apps.medications.models import Medication
+from django.utils import timezone
 
 
 class PrescriptionItemSerializer(serializers.ModelSerializer):
@@ -35,6 +36,23 @@ class PrescriptionSerializer(serializers.ModelSerializer):
             )
 
         return prescription
+
+    def validate_expires_at(self, value):
+        if value <= timezone.now().date():
+            raise serializers.ValidationError(
+                "Data ważności musi być w przyszłości"
+            )
+        return value
+
+    def validate_items(self, items):
+        if not items:
+            raise serializers.ValidationError("Recepta musi mieć przynajmniej 1 lek")
+
+        for item in items:
+            if item.get("quantity", 0) <= 0:
+                raise serializers.ValidationError("Ilość leku musi być > 0")
+
+        return items
 
     def get_serializer_context(self):
         return {"request": self.request}

@@ -5,7 +5,11 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.sqlite3
+
+# =========================
+# Database
+# =========================
+db.sqlite3
 
 # =========================
 # Virtual environment
@@ -18,18 +22,22 @@ ENV/
 # =========================
 # Django
 # =========================
-db.sqlite3
 media/
 staticfiles/
 *.log
-
-
 
 # =========================
 # Environment variables
 # =========================
 .env
 .env.*
+
+# =========================
+# Frontend (React / Vite)
+# =========================
+node_modules/
+dist/
+.env.local
 
 # =========================
 # IDE
@@ -43,7 +51,3 @@ staticfiles/
 .DS_Store
 Thumbs.db
 
-# =========================
-# Docker (na przyszłość)
-# =========================
-docker-compose.override.yml
